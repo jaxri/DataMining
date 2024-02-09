@@ -17,11 +17,13 @@ Erdem, Associate Professor, and Senturk, Research Assistant, (2009) have develop
 We used Kaggle as the source for all our data. At first, we found a dataset  “Used Cars In Saudi Arabia” which has been web-scraped using BeautifulSoup from the Yallamotor website that sells used cars. This dataset includes only 2287 data points which quickly became a concern when looking at specific brands with a minimal amount of data. It also showed some information that was very unrealistic because of the low amount of data such as that the average price of an Audi was 1,119,380.00 SAR. This is why we decided to combine this dataset with another called “Saudi Arabia Used Car” which contains data that has been scraped from syarah.com. This data set contained 5,624 data points which gave us more to work with. This gave us a final larger dataset with attributes such as car brand, car model, car driven, car model year, and car price. To further understand the data we looked at the count data points for each brand and the average prices of each brand. This was conducted using Python, leveraging libraries like Pandas and Numpy for data manipulation and Seaborn for initial data visualization. In addition, we made a correlation heatmap to get an idea of the correlation between attributes. This gave us more information on what our following steps should be and how to proceed. In addition, insight into how to go about data cleaning and processing and what to expect from the results.
 
 ![Screenshot 2024-02-09 160704](https://github.com/jaxri/DataMiningProject/assets/64553469/1bb215dc-4de6-4974-b463-9e2d394bc54e)
-	Fig 1. correlation matrix visualization
+
+Fig 1. correlation matrix visualization
 
 After this, we started analyzing data points that skew the data or give incorrect results. We did this by finding duplicates or cars being sold for free. In addition to this, we created distribution plots and spreads of price, Kilometers driven, and car model year. This allowed us to understand the ranges we wanted to work in and find outliers that were skewing the data as shown in Figure 2.
 
 ![Screenshot 2024-02-09 160937](https://github.com/jaxri/DataMiningProject/assets/64553469/32cfae46-27ad-4cda-8707-b020cb2d2486)
+
 Fig 2. Price Distribution Plot and Price Spread
 
 ####Data Cleaning and Preprocessing:
@@ -36,27 +38,19 @@ In our project, we employed various data mining techniques to analyze and predic
 
 Random Forest Regression is a powerful ensemble technique known for its accuracy and ability to handle non-linear data.  This model is well-suited for handling the large feature space and complex relationships within our data. It is robust to overfitting and provides insights into feature importance. To implement this we generated a baseline using DummyRegressor. Then, we predicted using the baseline model and evaluated the baseline model. After that, we did Hyperparameter Optimization by using Optuna to optimize the Random Forest to find the best model for predictions. Metrics like Mean Absolute Error, Mean Squared Error, and R-squared were calculated using Scikit-learn's built-in functions. This resulted in an accuracy of 79.13% and prices that were on average off by 8925 SAR. 
 
-
-
-
-
-
-
+![Screenshot 2024-02-09 161050](https://github.com/jaxri/DataMiningProject/assets/64553469/bfbe96a1-d64b-4c75-82e2-2ce7ff65f32e)
 
 ####Linear Regression:
 
 Linear Regression is a fundamental approach for predicting a quantitative response and understanding relationships between variables. It serves as a baseline for comparison. It is useful for understanding the direct linear relationships between the features and the target variable. To implement this we first create a linear regression model and split the data into training and testing sets. After this, we trained the linear regression model and used the trained model to make predictions on the test set. Lastly, we evaluate the model and get the Mean Squared Error, and R-squared using Scikit-learn's built-in functions. This model resulted in extremely inaccurate predictions as the mean squared error is very high. This is assumed since linear regression is sensitive to outliers, and assumes homoscedasticity, meaning the variance of error terms is constant across all levels of the independent variables.
 
-
+![Screenshot 2024-02-09 161108](https://github.com/jaxri/DataMiningProject/assets/64553469/c3b4f5fe-d551-42c4-a970-9b8e5c74db34)
 
 ####Gradient Boosting Regression (XGBoost):
 
 Gradient Boosting Regression is an advanced ensemble technique that uses gradient boosting frameworks, known for its high performance and speed. It is, similar to random forest regression, well-suited for handling the large feature space and complex relationships within our data. To implement this we generated a baseline using DummyRegressor, evaluated the baseline model, used hyperparameter optimization by using Optuna, trained the model with the best hyperparameters, and then evaluated the best model. This resulted in an accuracy of 84.58% and prices that were on average off by 78235 SAR. Which makes it the most accurate model of the three. 
 
-
-
-
-
+![Screenshot 2024-02-09 161125](https://github.com/jaxri/DataMiningProject/assets/64553469/7210878b-2cfc-4096-ba8e-eb5082cf0a77)
 
 These models collectively provide a comprehensive analysis, each contributing unique insights, thereby enabling a thorough understanding of the factors influencing used car prices. Each step was carefully implemented and cross-validated to ensure the correctness of our approach. The use of Python and its associated libraries provided a robust and flexible environment for conducting comprehensive data analysis and model development.
 
@@ -64,38 +58,41 @@ These models collectively provide a comprehensive analysis, each contributing un
 
 To obtain the wanted results of what car brands are most efficient in holding their price we need to get the depreciation rates of each brand. To set up the models for the evaluation, we first calculate an “actual depreciation rate” which is the car price divided by the amount of kilometers driven by the car. We then drop rows with NaN or infinite values and select the relevant features for our model. After that, we encode the categorical variables, split the data into training and testing sets, and train both the random forest model and the XGBoost model. Lastly, we evaluate the model, compare model predictions with actual depreciation rates, remove outliers, and visualize the results with a line of best fit. The line of best fit indicates the overall direction of the data points' relationship as shown in figure 3. Both lines have a positive slope, indicating a positive correlation between actual and predicted depreciation rates. As the actual rate increases, the predicted rate also increases. We see that the random forest model is better at predicting the depreciation rate despite it being less accurate in predicting the price in general.      
 
-
+![Screenshot 2024-02-09 161146](https://github.com/jaxri/DataMiningProject/assets/64553469/a36a2e87-7b80-4b91-869c-d622389d3ede)
 
 Fig 3. Visualization of the results with a line of best-fit
 
-
 After this, we needed to obtain the average depreciation rate for all car brands to get a complete idea of which car brands hold their price the most and which depreciate a lot. We do this by extracting encoded 'car_brand' columns from the original dataset for 'results_rf',  grouping by car brand, and calculating the average depreciation rate. We then can use this to get a complete bar plot of the average depreciation rate for all car brands. By looking at the graph in Figure 4 and 5 we can see that some brands such as GMC, Mitsubishi, and Chevrolet depreciate very low amounts which makes them efficient in holding their price. We also see in figure 6 that Dodge and Chrysler fall in price the most, making them not very efficient cars from a financial standpoint.  When looking at the top 5 cars with the most depreciation we see all of them are brands from the United States which means that buying these cars in Saudi Arabia might not always be financially efficient. In addition, Hummer has an extremely high negative depreciation which means it depreciates the most and it has been removed from the graph to make the visualization clearer. This could be because maintenance of cars from the United States in Saudi Arabia is not as established as cars from Asia or Europe. Despite this, GMC and Chevrolet are still the cars that depreciate the least which might be because of the very high quality of these brands and their longevity, making them very good options for used car buyers. After examining the market sales in websites, we believe that while our results may not be entirely accurate, they still provide a valuable perspective. Some brands show positive depreciation which might be because of outliers, rare cars, and extremely low amounts of data since we can assume most normal cars should depreciate when driven more.   
+
+![Screenshot 2024-02-09 161208](https://github.com/jaxri/DataMiningProject/assets/64553469/b884a32c-29d4-45ba-be37-3266da130ec0)
 
 Fig 4. Average depreciation rate XGBoost
 
+![Screenshot 2024-02-09 161243](https://github.com/jaxri/DataMiningProject/assets/64553469/01884859-787c-4695-a452-ad03a703467b)
+
 Fig 5. Top 5 brands with lowest depreciation rate RF (Brands with above 50 cars)
 
+![Screenshot 2024-02-09 161315](https://github.com/jaxri/DataMiningProject/assets/64553469/8272f31b-e9e1-439c-ba31-5d64b498f208)
 
 Fig 6. Top 5 cars with most depreciation (Brands with above 50 cars)
 
-
-
+![Screenshot 2024-02-09 161339](https://github.com/jaxri/DataMiningProject/assets/64553469/12e884e3-bffb-46d7-a12a-19b5dd6ec379)
 
 Fig 7. Average depreciation rate RF
 
-Conclusion
+##Conclusion
 
-	Our study looked at which used cars in Saudi Arabia keep their value the best. We did a lot of research, gathered a bunch of data, cleaned it up, and then analyzed it using three different methods: random forest, linear regression, and XGBoost. After careful testing, we found out how fast different car brands lose value over time. Our discussion of the related work as well as the gathering, combing, cleaning, and preprocessing of the data led us to a better approach and method of analysis; which is running the three regression models and evaluating them until we choose the best model to work with. Then, we were able to obtain more accurate average depreciation rates for each brand and then evaluated the results and modified them further to get rid of the rare outliers and further improve the accuracy of the results.
+Our study looked at which used cars in Saudi Arabia keep their value the best. We did a lot of research, gathered a bunch of data, cleaned it up, and then analyzed it using three different methods: random forest, linear regression, and XGBoost. After careful testing, we found out how fast different car brands lose value over time. Our discussion of the related work as well as the gathering, combing, cleaning, and preprocessing of the data led us to a better approach and method of analysis; which is running the three regression models and evaluating them until we choose the best model to work with. Then, we were able to obtain more accurate average depreciation rates for each brand and then evaluated the results and modified them further to get rid of the rare outliers and further improve the accuracy of the results.
 
 In the end of the study, we have determined what car brands hold the most value which are GMC, Chevrolet, and Mitsubishi. These cars don't lose their value as quickly as other cars we examined. These findings can assist individuals looking to buy a used car in Saudi Arabia. They now have more knowledge on the matter and can make more informed decisions with strong confidence. Their money is better spent. Overall, this project gives people useful information about the used car market in Saudi Arabia and paves the way for more detailed studies later on.
 
-Future Work
+##Future Work
 
-	Our project has been very limited due to the size of our data. The dataset had around 7000 objects at the start and was reduced after the cleaning. Hence, for some of the car brands, there was not enough data to make very precise predictions. Therefore, to improve the study, we would like to find more data, especially for the low data of car brands, and include newer or less popular car brands in Saudi Arabia to enhance the prediction and get more accurate depreciation rates. In the future, we plan to examine car data from other Middle Eastern countries that have markets similar to Saudi Arabia's. This comparison could help us understand how car prices fluctuate over time. Additionally, consulting with car experts and dealers could provide insights that aren't available in our current dataset. We also aim to investigate how broader economic factors, such as fuel prices, import taxes, and the 15% VAT in Saudi Arabia, influence car prices by affecting demand and supply. We understand that if demand exceeds supply, prices tend to increase, and conversely, if supply exceeds demand, prices usually decrease. These economic elements can significantly impact a car's value, offering us a fuller understanding of the entire Saudi car market.
+Our project has been very limited due to the size of our data. The dataset had around 7000 objects at the start and was reduced after the cleaning. Hence, for some of the car brands, there was not enough data to make very precise predictions. Therefore, to improve the study, we would like to find more data, especially for the low data of car brands, and include newer or less popular car brands in Saudi Arabia to enhance the prediction and get more accurate depreciation rates. In the future, we plan to examine car data from other Middle Eastern countries that have markets similar to Saudi Arabia's. This comparison could help us understand how car prices fluctuate over time. Additionally, consulting with car experts and dealers could provide insights that aren't available in our current dataset. We also aim to investigate how broader economic factors, such as fuel prices, import taxes, and the 15% VAT in Saudi Arabia, influence car prices by affecting demand and supply. We understand that if demand exceeds supply, prices tend to increase, and conversely, if supply exceeds demand, prices usually decrease. These economic elements can significantly impact a car's value, offering us a fuller understanding of the entire Saudi car market.
 
 Furthermore, the incorporation of different prediction analyses might get us a more accurate analysis. One method that was taken into consideration by my team was deep neural networks. We believe it would have provided more precise results with less mean variance thus concluding with more robust work.
 
-References
+##References
 - Pike, J. (n.d.). MK 15 Phalanx Close-In Weapons System (CIWS). Mk 15 phalanx close-in weapons system (CIWS). https://man.fas.org/dod-101/sys/ship/weaps/mk-15.htm
 - Consultancy-me.com. (2022, October 18). Saudi Arabia’s used cars sales market is poised to take-off. Consultancy. https://www.consultancy-me.com/news/5464/saudi-arabias-used-cars-sales-market-is-poised-to-take-off#:~:text=Saudi%20Arabia%27s%20used%20car%20and,of%20%2428.7%20billion%20by%202025
 - plantmachineryvehicles.com (2020). Impact of COVID-19 on the passenger car aftermarket in Saudi Arabia. plantmachineryvehicles. https://www.plantmachineryvehicles.com/equipment/vehicles/77772-impact-of-covid-19-on-the-passenger-car-aftermarket-in-saudi-arabia
