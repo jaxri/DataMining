@@ -45,8 +45,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import explained_variance_score
 
-cars = pd.read_csv(r'C:\Users\rocke\Downloads\used_cars\used_car_cleaned.csv', delimiter=',')
-cars2 = pd.read_csv(r'C:\Users\rocke\Downloads\used_cars\archive (2)\UsedCarsSA_Clean_EN.csv', delimiter=',')
+cars = pd.read_csv("Data/used_car_cleaned.csv", delimiter=',')
+cars2 = pd.read_csv("Data/UsedCarsSA_Clean_EN.csv", delimiter=',')
 warnings.filterwarnings("ignore")
 
 
