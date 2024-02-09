@@ -1,6 +1,5 @@
-# DataMining
-Project Files for Data Mining Class. Takes saudi arabian car data and uses machine learning and regression models to predict future prices.
-## Collaborators
+# Used Cars In Saudi Arabia
+### Collaborators
 Jackson Rini, Sultan Alshakrah, Abdulrahman Baflah, Majed Zamzami
 ## Abstract
 In this paper, we aim to use regression analysis to determine which used car brand maintains its value optimally based on the amount driven. We have discussed the need for this topic as well as examined similar studies that have been conducted related to our work. Our team has found two databases and combined them into one to have more data points to work on. Then, we also cleaned the data by getting rid of outliers, null values, and other values that hindered our work. We have created predictive models in three different methodologies: random forest regression, linear regression, and gradient boosting regression (XGBoost) to accomplish our goal. We evaluated the three models and by comparing the mean squared error and other factors we could choose which model to continue analysis on.
